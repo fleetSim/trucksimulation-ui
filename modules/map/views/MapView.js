@@ -19,8 +19,8 @@ module.exports = Marionette.ItemView.extend({
      * Default view of the map.
      */
     view: new ol.View({
-        center: [0, 0],
-        zoom: 3
+        center: ol.proj.transform([11.665394, 55.926081], 'EPSG:4326', 'EPSG:3857'),
+        zoom: 10
     }),
 
     triggers: {
@@ -65,34 +65,31 @@ module.exports = Marionette.ItemView.extend({
             }),
             view: this.view
         });
+
+    },
+
+    center: function(lat, lon) {
+        this.map.getView().setCenter(ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'));
     },
 
     /**
      * Adds a feature to the map layer and transforms it from WGS84 to the appropriate map projection.
-     * @param geoJson the geometry object
-     * @param geoJson.type type of the geometry (e.g. "LineString")
-     * @param geoJson.coordinates an array with coordinates for this geometry
+     * @param featureJson the geometry object
+     * @param style feature style
      */
-    addFeature: function (geoJson) {
-        var feature = this.transform(geoJson);
-        this.vectorSource.addFeature(feature);
-    },
+    drawFeature: function (featureJson, style) {
+        var f = new ol.format.GeoJSON();
+        var feature = f.readFeature(featureJson, {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
+        if(style !== undefined) {
+            feature.setStyle(style);
+        }
 
-    /**
-     *
-     * @param geom
-     * @return {ol.Feature}
-     */
-    transform: function (geom) {
-        var wgs84geojson = new ol.format.GeoJSON({defaultDataFormat: 'EPSG:4326'});
-        var wgs84feature = wgs84geojson.readFeature({
-            'type': 'Feature',
-            'geometry': geom
-        }, {
-            dataProjection: 'EPSG:4326',
-            featureProjection: 'EPSG:3857'
-        });
-        return wgs84feature;
+        if( this.vectorSource.getFeatureById(featureJson.id) !== null) {
+            var feat = this.vectorSource.getFeatureById(featureJson.id);
+            feat.setGeometry(feature.getGeometry());
+        } else {
+            this.vectorSource.addFeature(feature);
+        }
     },
 
 

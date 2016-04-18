@@ -7,8 +7,9 @@ var Radio = require('backbone.radio');
 var RootView = require('main/RootView');
 var Router = require('main/Router');
 var Controller = require('main/Controller');
+var WebsocketListener = require('main/WebSocketListener');
 
-var trucksRouter = require('trucks/index');
+var trucksRouter = require('trucks/module');
 
 var App = Marionette.Application.extend({
     getRoot: function () {
@@ -20,6 +21,7 @@ var app = new App();
 app.rootView = RootView;
 app.on('start', function() {
     app.rootView.render();
+    WebsocketListener.start(); // publish websocket msgs via Radio
 });
 
 

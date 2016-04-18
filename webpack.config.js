@@ -8,7 +8,7 @@ console.log(isProd ? "PRODUCTION BUILD" : "DEVELOPMENT BUILD");
 
 var commonEntry = [ 'font-awesome-webpack', './app.js']
 
-
+const PORT = 9000;
 /**
  * Output
  * Reference: http://webpack.github.io/docs/configuration.html#output
@@ -20,7 +20,7 @@ var output = {
     path: __dirname + '/dist',
     // Output path from the view of the page
     // Uses webpack-dev-server in development
-    publicPath: isProd ? '/' : 'http://localhost:8080/',
+    publicPath: isProd ? '/' : 'http://localhost:' + PORT + '/',
     // Filename for entry points. Only adds hash in build mode
     filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
     // Filename for non-entry points. Only adds hash in build mode
@@ -52,8 +52,20 @@ module.exports = {
     output: output,
     plugins: plugins,
     devServer: {
+        port: PORT,
         contentBase: './public',
-        stats: 'minimal'
+        stats: 'minimal',
+        proxy: {
+            '/api/*': {
+                target: 'http://127.0.0.1:8080',
+                secure: false
+            },
+            '/eventbus/*': {
+                target: 'http://127.0.0.1:8080',
+                secure: false,
+                ws: true
+            }
+        }
     },
     module : {
         preLoaders: [
