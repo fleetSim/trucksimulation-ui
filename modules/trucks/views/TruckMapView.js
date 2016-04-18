@@ -22,7 +22,17 @@ module.exports = Marionette.LayoutView.extend({
     redraw: function(truck) {
 
         var iconBuilder = new IconBuilder({icon: "truck", color: "black", size: 24});
-        var style = iconBuilder.get();
+        var iconStyle = iconBuilder.get();
+        var labelStyle = new ol.style.Style({
+            text: new ol.style.Text({
+                text: "Truck #" + truck.id,
+                offsetY: -24,
+                fill: new ol.style.Fill({
+                    color: "black"
+                })
+            })
+        });
+        style = [iconStyle, labelStyle];
 
         if(this.mapView !== null) {
             this.mapView.drawFeature(truck, style);
