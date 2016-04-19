@@ -3,8 +3,10 @@ var tpl = require('../templates/map.hbs');
 var $ = require('jquery');
 var ol = require("openlayers");
 var mapStyles = require('./MapStyles');
-var css = require("openlayers/dist/ol.css");
-var mapDIvStyle = require('../map.less');
+require("openlayers/dist/ol.css");
+require('../map.less');
+var _ = require('underscore');
+
 
 /**
  * Mapview for displaying features on an OSM map.
@@ -44,6 +46,7 @@ module.exports = Marionette.ItemView.extend({
     onShow: function () {
         console.log("showing map");
         this.showMap();
+        this.addClickHandler();
     },
 
 
@@ -65,7 +68,17 @@ module.exports = Marionette.ItemView.extend({
             }),
             view: this.view
         });
+    },
 
+    addClickHandler: function() {
+        this.map.on("click", _.bind(function(e) {
+            this.map.forEachFeatureAtPixel(e.pixel, _.bind(function (feature, layer) {
+                //do something
+                console.log("clicked on " + feature.getId());
+                this.triggerMethod('click:feature', feature, layer);
+                this.triggerMethod('test', feature, layer);
+            }, this));
+        }, this));
     },
 
     center: function(lat, lon) {

@@ -18,6 +18,7 @@ module.exports = {
 
     registerHandlers: function () {
         this.eb.registerHandler("trucks", _.bind(function (err, res) {
+            console.log(res.body.id);
             this.trucksChannel.trigger("trucks", res.body);
         }, this));
     }
