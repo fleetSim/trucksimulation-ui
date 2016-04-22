@@ -1,0 +1,44 @@
+{
+  "name": "trucksimulation-ui",
+  "version": "0.1.0",
+  "description": "Display simulated trucks on a map",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --history-api-fallback --inline --progress"
+  },
+  "author": "Rocco Schulz <rocco@is-gr8.com>",
+  "license": "MIT",
+  "dependencies": {
+    "backbone": "1.2.3",
+    "backbone.marionette": "^2.4.4",
+    "font-awesome": "4.3.0",
+    "handlebars": "^4.0.5",
+    "jquery": "^2.1.4",
+    "openlayers": "^3.15.1",
+    "purecss": "^0.6.0",
+    "underscore": "^1.8.3",
+    "vertx3-eventbus-client": "^3.2.1"
+  },
+  "devDependencies": {
+    "assets-webpack-plugin": "^3.4.0",
+    "babel-core": "^6.7.6",
+    "babel-loader": "^6.2.4",
+    "backbone.radio": "^1.0.4",
+    "css-loader": "0.18.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "font-awesome-webpack": "0.0.4",
+    "handlebars-loader": "^1.2.0",
+    "handlebars-template-loader": "^0.5.7",
+    "html-webpack-plugin": "^2.15.0",
+    "jshint": "^2.9.1",
+    "jshint-loader": "^0.8.3",
+    "less": "^2.6.1",
+    "less-loader": "^2.2.3",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
