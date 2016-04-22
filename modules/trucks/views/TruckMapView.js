@@ -38,7 +38,7 @@ module.exports = Marionette.LayoutView.extend({
         var iconStyle = iconBuilder.get();
         var labelStyle = new ol.style.Style({
             text: new ol.style.Text({
-                text: "Truck #" + truck.id,
+                text: "Truck #" + truck.truckId,
                 offsetY: -24,
                 fill: new ol.style.Fill({
                     color: "black"
@@ -48,7 +48,10 @@ module.exports = Marionette.LayoutView.extend({
         style = [iconStyle, labelStyle];
 
         if(this.mapView !== null) {
-            this.mapView.drawFeature(truck, style);
+            console.log("redraw truck.");
+            console.log(truck.position);
+            truck.position.id = truck.truckId;
+            this.mapView.drawFeature(truck.position, style);
         }
     },
 

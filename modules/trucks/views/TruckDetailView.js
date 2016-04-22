@@ -12,12 +12,15 @@ module.exports =  Marionette.ItemView.extend({
     initialize: function (options) {
         this.listenTo(this.truckChannel, "trucks", this.updateModel);
     },
-    updateModel(jsonFeature) {
-        if(jsonFeature.id === this.model.id) {
-            console.log(jsonFeature.geometry.coordinates);
+    updateModel(boxMessage) {
+        if(boxMessage.truckId === this.model.id) {
+            console.log(boxMessage.position.geometry.coordinates);
             this.model.set({
-                lon: jsonFeature.geometry.coordinates[0],
-                lat: jsonFeature.geometry.coordinates[1]
+                lon: boxMessage.position.geometry.coordinates[0],
+                lat: boxMessage.position.geometry.coordinates[1],
+                speed: boxMessage.speed,
+                ts: boxMessage.ts,
+                horizontalAccuracy: boxMessage.horizontalAccuracy
             });
         }
     }
