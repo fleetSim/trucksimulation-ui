@@ -20,6 +20,7 @@ module.exports =  Marionette.ItemView.extend({
                 lat: boxMessage.position.geometry.coordinates[1],
                 speed: boxMessage.speed,
                 ts: boxMessage.ts,
+                bearing: boxMessage.bearing,
                 horizontalAccuracy: boxMessage.horizontalAccuracy
             });
         }

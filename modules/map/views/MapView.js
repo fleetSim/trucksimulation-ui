@@ -100,6 +100,7 @@ module.exports = Marionette.ItemView.extend({
         if( this.vectorSource.getFeatureById(featureJson.id) !== null) {
             var feat = this.vectorSource.getFeatureById(featureJson.id);
             feat.setGeometry(feature.getGeometry());
+            style !== undefined ? feat.setStyle(style) : null;
         } else {
             this.vectorSource.addFeature(feature);
         }

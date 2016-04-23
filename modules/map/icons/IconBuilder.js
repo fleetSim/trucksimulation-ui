@@ -6,8 +6,9 @@ var faIconMap = require('./faIconMap');
 
 module.exports = Marionette.Object.extend({
 
-    builderOptions: ['color', 'icon', 'size'],
+    builderOptions: ['color', 'icon', 'size', 'rotation'],
     size: 32,
+    rotation: 0,
 
     /**
      *
@@ -30,6 +31,7 @@ module.exports = Marionette.Object.extend({
             text: faIconMap["map-marker"],
             font: 'normal ' + this.size +'px FontAwesome',
             textBaseline: 'Bottom',
+            rotation: this.rotation,
             fill: new ol.style.Fill({
                 color: this.color
             })

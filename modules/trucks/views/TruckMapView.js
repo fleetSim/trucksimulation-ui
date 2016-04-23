@@ -33,8 +33,8 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     redraw: function(truck) {
-
-        var iconBuilder = new IconBuilder({icon: "truck", color: "black", size: 24});
+        var rotationRadians = (truck.bearing + 90) * (Math.PI/180);
+        var iconBuilder = new IconBuilder({icon: "truck", color: "black", size: 24, rotation: rotationRadians});
         var iconStyle = iconBuilder.get();
         var labelStyle = new ol.style.Style({
             text: new ol.style.Text({
