@@ -15,7 +15,6 @@ module.exports =  Marionette.ItemView.extend({
     },
     updateModel(boxMessage) {
         if(boxMessage.truckId === this.model.id) {
-            console.log(boxMessage.position.geometry.coordinates);
             this.model.set({
                 lon: boxMessage.position.geometry.coordinates[0],
                 lat: boxMessage.position.geometry.coordinates[1],

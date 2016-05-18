@@ -13,7 +13,6 @@ module.exports = marionette.ItemView.extend({
         this.listenTo(this.truckChannel, "trucks", this.updateModel);
     },
     updateModel(boxMessage) {
-        console.log(this.model);
         if(boxMessage.truckId === this.model.id) {
             this.model.set({
                 lon: boxMessage.position.geometry.coordinates[0],

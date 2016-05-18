@@ -6,6 +6,7 @@ var backbone = require('backbone');
 var ol = require('openlayers');
 var IconBuilder = require('map/icons/IconBuilder');
 var TruckDetailView = require('./TruckDetailView');
+var TruckModel = require('../TruckModel');
 
 
 module.exports = Marionette.LayoutView.extend({
@@ -27,7 +28,8 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     onFeatureClicked: function(view, feature, layer) {
-        var model = new backbone.Model({urlRoot: "/api/v1/trucks", id: feature.getId()});
+        var model = new TruckModel({_id: feature.getId()});
+        this.collection.add(model);
         var truckView = new TruckDetailView({model: model});
         model.fetch();
         this.truckInfo.show(truckView);
@@ -49,8 +51,6 @@ module.exports = Marionette.LayoutView.extend({
         style = [iconStyle, labelStyle];
 
         if(this.mapView !== null) {
-            console.log("redraw truck.");
-            console.log(truck.position);
             truck.position.id = truck.truckId;
             this.mapView.drawFeature(truck.position, style);
         }

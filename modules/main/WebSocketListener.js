@@ -14,13 +14,17 @@ module.exports = {
     start: function () {
         console.log("connecting to socket.");
         this.eb.onopen = _.bind(this.registerHandlers, this);
+        this.eb.onclose = _.bind(this.reconnect, this);
     },
 
     registerHandlers: function () {
         this.eb.registerHandler("trucks", _.bind(function (err, res) {
-            console.log(res.body);
             this.trucksChannel.trigger("trucks", res.body);
         }, this));
+    },
+
+    reconnect: function() {
+        eb.open();
     }
 };
 

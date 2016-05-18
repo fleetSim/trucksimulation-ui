@@ -7,7 +7,8 @@ var TruckListView = require('./views/TruckListView');
 module.exports = Marionette.Controller.extend({
 
     truckMap: function(simId) {
-        var view = new TruckMapView();
+        var trucks = new TruckCollection(simId);
+        var view = new TruckMapView({collection: trucks});
         rootView.showChildView('body', view);
     },
 

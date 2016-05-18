@@ -1,10 +1,14 @@
-<h2>Truck #{{ id }}</h2>
-<p>lorem ipsum dolor sit amet.</p>
+<h2>Truck {{ _id }}</h2>
 <h5>Coordinates</h5>
-{{ lon }} {{ lat }}<br>
+{{ lon }} <br>
+{{ lat }} <br>
 Accuracy: {{ horizontalAccuracy }} m
+
 <h5>Speed</h5>
-{{ speed }} m/s<br>
-bearing: {{ bearing }}°
+{{ speed }} m/s
+
+<h5>bearing</h5>
+{{ bearing }}°
+
 <h5>Last Update</h5>
 {{ ts }}
