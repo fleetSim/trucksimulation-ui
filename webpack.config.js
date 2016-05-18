@@ -67,6 +67,9 @@ module.exports = {
             }
         }
     },
+    jshint: {
+        esversion: 6
+    },
     module : {
         preLoaders: [
             {

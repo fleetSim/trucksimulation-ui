@@ -27,8 +27,9 @@ module.exports = Marionette.LayoutView.extend({
     },
 
     onFeatureClicked: function(view, feature, layer) {
-        var model = new backbone.Model({id: feature.getId()});
+        var model = new backbone.Model({urlRoot: "/api/v1/trucks", id: feature.getId()});
         var truckView = new TruckDetailView({model: model});
+        model.fetch();
         this.truckInfo.show(truckView);
     },
 

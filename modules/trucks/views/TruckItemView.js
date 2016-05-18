@@ -1,9 +1,8 @@
-var Marionette = require('backbone.marionette');
-var tpl = require('../templates/truckInfo.hbs');
+var marionette = require('backbone.marionette');
+var tpl = require('../templates/truckItem.hbs');
 var Radio = require('backbone.radio');
 
-
-module.exports =  Marionette.ItemView.extend({
+module.exports = marionette.ItemView.extend({
     template: tpl,
     truckChannel: Radio.channel("trucks"),
     modelEvents: {
@@ -14,8 +13,8 @@ module.exports =  Marionette.ItemView.extend({
         this.listenTo(this.truckChannel, "trucks", this.updateModel);
     },
     updateModel(boxMessage) {
+        console.log(this.model);
         if(boxMessage.truckId === this.model.id) {
-            console.log(boxMessage.position.geometry.coordinates);
             this.model.set({
                 lon: boxMessage.position.geometry.coordinates[0],
                 lat: boxMessage.position.geometry.coordinates[1],

@@ -11,7 +11,8 @@ var WebsocketListener = require('main/WebSocketListener');
 require('purecss/build/pure.css');
 require('./app.less');
 
-var trucksRouter = require('trucks/module');
+require('trucks/module');
+require('simulations/module');
 
 var App = Marionette.Application.extend({
     getRoot: function () {
