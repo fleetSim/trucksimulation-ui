@@ -44,7 +44,6 @@ module.exports = Marionette.ItemView.extend({
     },
 
     onShow: function () {
-        console.log("showing map");
         this.showMap();
         this.addClickHandler();
     },
@@ -93,15 +92,17 @@ module.exports = Marionette.ItemView.extend({
     drawFeature: function (featureJson, style) {
         var f = new ol.format.GeoJSON();
         var feature = f.readFeature(featureJson, {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
-        if(style !== undefined) {
-            feature.setStyle(style);
-        }
-
+        // update existing feature if already drawn
         if( this.vectorSource.getFeatureById(featureJson.id) !== null) {
             var feat = this.vectorSource.getFeatureById(featureJson.id);
             feat.setGeometry(feature.getGeometry());
-            style !== undefined ? feat.setStyle(style) : null;
+            if(style !== undefined) {
+                feat.setStyle(style);
+            }
         } else {
+            if(style !== undefined) {
+                feature.setStyle(style);
+            }
             this.vectorSource.addFeature(feature);
         }
     },
@@ -124,8 +125,6 @@ module.exports = Marionette.ItemView.extend({
         this.map.setTarget(null);
         this.map = null;
         this.vectorSource.clear();
-        console.log("map view destroyed");
     }
-
 
 });

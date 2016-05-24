@@ -1,5 +1,7 @@
 var Marionette = require('backbone.marionette');
 var tpl = require('../templates/simulationDetail.hbs');
+var TruckCollection = require('trucks/TruckCollection');
+var TruckListView = require('trucks/views/TruckListView');
 
 module.exports = Marionette.LayoutView.extend({
     template: tpl,
@@ -13,12 +15,23 @@ module.exports = Marionette.LayoutView.extend({
         "click @ui.stopBtn": "sim:stop"
     },
 
+    regions: {
+        "trucks": "[data-region=truckList]",
+        "traffic": "[data-region=trafficList]"
+    },
+
     onSimStart: function() {
-        console.log("button clicked");
         this.model.start();
     },
 
     onSimStop: function() {
         this.model.stop();
+    },
+
+    onShow: function() {
+        var trucks = new TruckCollection(this.model.get('_id'));
+        var view = new TruckListView({collection: trucks});
+        this.showChildView('trucks', view);
+        trucks.fetch();
     }
 });
