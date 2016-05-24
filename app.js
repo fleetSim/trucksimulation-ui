@@ -8,8 +8,6 @@ var RootView = require('main/RootView');
 var Router = require('main/Router');
 var Controller = require('main/Controller');
 var WebsocketListener = require('main/WebSocketListener');
-require('purecss/build/pure.css');
-require('./app.less');
 
 require('trucks/module');
 require('simulations/module');

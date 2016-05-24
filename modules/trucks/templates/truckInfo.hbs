@@ -1,14 +1,18 @@
-<h2>Truck {{ _id }}</h2>
-<h5>Coordinates</h5>
-{{ lon }} <br>
-{{ lat }} <br>
-Accuracy: {{ horizontalAccuracy }} m
+<h2>Truck</h2>
 
-<h5>Speed</h5>
-{{ speed }} m/s
-
-<h5>bearing</h5>
-{{ bearing }}°
-
-<h5>Last Update</h5>
-{{ ts }}
+<p>
+    <strong>Truck ID:</strong> {{ _id }}
+</p>
+<p>
+    <strong>Speed:</strong> {{ speed }} m/s
+</p>
+<p>
+    <strong>Bearing:</strong> {{ bearing }}°</p>
+<p>
+    <strong>Position:</strong> <br>
+    lon: {{ lon }} <br>
+    lat: {{ lat }}
+</p>
+<p>
+    <strong>Accuracy:</strong> {{ horizontalAccuracy }} m
+</p>

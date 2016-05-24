@@ -1,9 +1,14 @@
 <h1>{{ _id }}</h1>
+<a class="pure-button" href="#start" id="startSim">start</a>
+<a class="pure-button" href="#stop" id="stopSim">stop</a>
+
 <p>{{ description }}</p>
-<a href="#start" id="startSim" class="button">start</a>
-<a href="#stop" id="stopSim" class="button">stop</a>
 
 <h2>Trucks</h2>
-
+<a class="pure-button" href="#simulations/{{ _id }}/trucks">show list of trucks</a>
 
 <h2>Traffic</h2>
+TODO: list of traffic incidents
+
+<h2>Map</h2>
+<a class="pure-button" href="#simulations/{{ _id }}/trucks/map">show trucks on map</a>

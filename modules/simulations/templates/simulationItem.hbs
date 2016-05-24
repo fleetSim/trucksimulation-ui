@@ -1,2 +1,15 @@
-<h2>{{ _id }}</h2>
-<p>{{ description }}</p>
+<section class="post">
+    <div class="post-header">
+        <h3 class="post-title">{{ _id }}</h3>
+
+        <p class="post-meta">
+            Status <span class="post-category post-category-yui">{{ status }}</span>
+        </p>
+    </div>
+    <div class="post-description">
+        <p>
+            {{ description }}<br>
+            <a class="button" href="#simulations/{{ _id }}">show details</a>
+        </p>
+    </div>
+</section>

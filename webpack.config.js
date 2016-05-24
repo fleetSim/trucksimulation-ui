@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var isProd = process.env.NODE_ENV == "production";
 console.log(isProd ? "PRODUCTION BUILD" : "DEVELOPMENT BUILD");
 
-var commonEntry = [ 'font-awesome-webpack', './app.js']
+var commonEntry = [ 'font-awesome-webpack', './app.js'];
 
 const PORT = 9000;
 /**
@@ -84,7 +84,7 @@ module.exports = {
             { test: /\.hbs$/,    loader: 'handlebars-loader?helperDirs[]=' + __dirname + '/src/app/modules/commons/templateHelpers' },
             // loaders for webfonts
             { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
+            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
           //  { test:require.resolve('openlayers'), loader:"imports?define=>false" } // workaround for openlayers issue as in https://github.com/openlayers/ol3/issues/3162
         ]
     },

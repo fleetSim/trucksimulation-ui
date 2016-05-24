@@ -21,7 +21,7 @@ module.exports = Marionette.ItemView.extend({
      * Default view of the map.
      */
     view: new ol.View({
-        center: ol.proj.transform([11.665394, 55.926081], 'EPSG:4326', 'EPSG:3857'),
+        center: ol.proj.transform([13.376481, 52.509663], 'EPSG:4326', 'EPSG:3857'),
         zoom: 10
     }),
 

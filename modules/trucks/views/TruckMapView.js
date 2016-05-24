@@ -10,7 +10,6 @@ var TruckModel = require('../TruckModel');
 
 
 module.exports = Marionette.LayoutView.extend({
-
     truckChannel: Radio.channel("trucks"),
     template: tpl,
     regions: {
@@ -25,14 +24,11 @@ module.exports = Marionette.LayoutView.extend({
 
     initialize: function (options) {
         this.listenTo(this.truckChannel, "trucks", this.redraw);
+        this.mergeOptions(options, ['controller', 'simId']);
     },
 
     onFeatureClicked: function(view, feature, layer) {
-        var model = new TruckModel({_id: feature.getId()});
-        this.collection.add(model);
-        var truckView = new TruckDetailView({model: model});
-        model.fetch();
-        this.truckInfo.show(truckView);
+        this.controller.showTruckInSidebar(this.simId, feature.getId());
     },
 
     redraw: function(truck) {
