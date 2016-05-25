@@ -92,6 +92,7 @@ module.exports = Marionette.ItemView.extend({
     drawFeature: function (featureJson, style) {
         var f = new ol.format.GeoJSON();
         var feature = f.readFeature(featureJson, {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
+
         // update existing feature if already drawn
         if( this.vectorSource.getFeatureById(featureJson.id) !== null) {
             var feat = this.vectorSource.getFeatureById(featureJson.id);
@@ -105,6 +106,27 @@ module.exports = Marionette.ItemView.extend({
             }
             this.vectorSource.addFeature(feature);
         }
+    },
+
+    drawPoint: function(coordinates, id, style) {
+        var feature = {
+            type: "Feature",
+            id: id,
+            geometry: {
+                type: "Point",
+                coordinates: coordinates
+            }
+        };
+        this.drawFeature(feature, style);
+    },
+
+    drawGeometryCollection: function(geometries, id, style) {
+        var feature = {
+            type: "Feature",
+            id: id,
+            geometry: geometries
+        };
+        this.drawFeature(feature, style);
     },
 
 

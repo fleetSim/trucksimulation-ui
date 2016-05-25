@@ -9,9 +9,11 @@ var Router = require('main/Router');
 var Controller = require('main/Controller');
 var WebsocketListener = require('main/WebSocketListener');
 
+// include app modules
 require('trucks/module');
 require('simulations/module');
 require('traffic/module');
+require('routes/module');
 
 var App = Marionette.Application.extend({
     getRoot: function () {

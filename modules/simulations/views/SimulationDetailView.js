@@ -4,6 +4,8 @@ var TruckCollection = require('trucks/TruckCollection');
 var TruckListView = require('trucks/views/TruckListView');
 var TrafficCollection = require('traffic/TrafficCollection');
 var TrafficListView = require('traffic/views/TrafficListView');
+var RouteCollection = require('routes/RouteCollection');
+var RouteListView = require('routes/views/RouteListView');
 
 module.exports = Marionette.LayoutView.extend({
     template: tpl,
@@ -19,7 +21,8 @@ module.exports = Marionette.LayoutView.extend({
 
     regions: {
         "trucks": "[data-region=truckList]",
-        "traffic": "[data-region=trafficList]"
+        "traffic": "[data-region=trafficList]",
+        "routes": "[data-region=routeList]"
     },
 
     onSimStart: function() {
@@ -33,6 +36,7 @@ module.exports = Marionette.LayoutView.extend({
     onShow: function() {
         this._showTrucks();
         this._showTraffic();
+        this._showRoutes();
     },
 
     _showTrucks: function() {
@@ -47,5 +51,13 @@ module.exports = Marionette.LayoutView.extend({
         var view = new TrafficListView({collection: traffic});
         this.showChildView('traffic', view);
         traffic.fetch();
+    },
+
+    _showRoutes: function() {
+        var routes = new RouteCollection(this.model.get('_id'));
+        var view = new RouteListView({collection: routes});
+        this.showChildView('routes', view);
+        routes.fetch();
+        console.log("getting routes");
     }
 });

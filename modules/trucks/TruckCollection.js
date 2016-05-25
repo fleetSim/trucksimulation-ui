@@ -5,6 +5,7 @@ module.exports = backbone.Collection.extend({
 
     initialize: function(simId) {
         this.url = "/api/v1/simulations/" + simId + "/trucks";
+        this.simId = simId;
     },
 
     // modelId: function(attrs) {
