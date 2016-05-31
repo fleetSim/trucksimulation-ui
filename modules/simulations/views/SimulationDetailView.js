@@ -14,6 +14,10 @@ module.exports = Marionette.LayoutView.extend({
         stopBtn: '#stopSim'
     },
 
+    modelEvents: {
+        "change:isRunning" : "onModelChange"
+    },
+
     triggers: {
         "click @ui.startBtn": "sim:start",
         "click @ui.stopBtn": "sim:stop"
@@ -23,6 +27,11 @@ module.exports = Marionette.LayoutView.extend({
         "trucks": "[data-region=truckList]",
         "traffic": "[data-region=trafficList]",
         "routes": "[data-region=routeList]"
+    },
+
+    onModelChange: function() {
+        this.render();
+        this.onShow();
     },
 
     onSimStart: function() {

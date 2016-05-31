@@ -1,7 +1,9 @@
 <h1>{{ _id }}</h1>
-<a class="pure-button" href="#start" id="startSim">start</a>
+{{#if isRunning}}
 <a class="pure-button" href="#stop" id="stopSim">stop</a>
-
+{{else}}
+<a class="pure-button" href="#start" id="startSim">start</a>
+{{/if}}
 <p>{{ description }}</p>
 
 <h2>Trucks</h2>
