@@ -11,13 +11,18 @@ var Radio = require('backbone.radio');
 module.exports = {
     eb: new EventBus("/eventbus"),
     trucksChannel: Radio.channel("trucks"),
+    reconnectAttempts: 0,
+    timerId: 0,
     start: function () {
-        console.log("connecting to socket.");
-        this.eb.onopen = _.bind(this.registerHandlers, this);
-        this.eb.onclose = _.bind(this.reconnect, this);
+        this.eb.onopen = _.bind(this.onOpen, this);
+        this.eb.onclose = _.bind(this.onClose, this);
     },
 
-    registerHandlers: function () {
+    onOpen: function () {
+        console.log("connected to websocket.");
+        this.reconnectAttempts = 0;
+        clearInterval(this.timerId);
+
         this.eb.registerHandler("trucks", _.bind(function (err, res) {
             this.trucksChannel.trigger("trucks", res.body);
         }, this));
@@ -28,7 +33,21 @@ module.exports = {
     },
 
     reconnect: function() {
-        eb.open();
+        this.reconnectAttempts = this.reconnectAttempts + 1;
+        if(this.reconnectAttempts < 10) {
+            console.log("websocket reconnect attempt " + reconnectAttempts + " of 10");
+            this.eb = new EventBus("/eventbus");
+            this.start();
+        } else {
+            console.log("could not reconnect after 10 attempts. Giving up.");
+            clearInterval(this.timerId);
+        }
+
+    },
+
+    onClose: function() {
+        this.timerId = setTimeout(_.bind(this.reconnect, this), 1000);
+        console.log("interval id is " + this.timerId);
     }
 };
 
