@@ -34,15 +34,18 @@ module.exports = Marionette.LayoutView.extend({
      * @param options.simId id of the current simulation
      */
     initialize: function (options) {
-        this.listenTo(this.truckChannel, "trucks", this.redraw);
+        this.listenTo(this.truckChannel, "trucks", this.redrawSimulatedTruck);
+        this.listenTo(this.truckChannel, "trucks.real", this.redrawRealTruck);
         this.mergeOptions(options, ['controller', 'simId', 'traffic']);
         this.listenTo(this.traffic, "sync", this.showTrafficOnMap);
     },
 
     onFeatureClicked: function(view, feature, layer) {
-        var truckId = feature.getId();
+        //FIXME: do not attempt to show truck details when different feature (e.g. traffic incident) has been clicked
+        var idParts = feature.getId().split('.');
+        var truckId = idParts[0] === "truck" ? idParts[2] : null;
         var that = this;
-        if(this.model.id !== truckId) {
+        if(truckId !== null && this.model.id !== truckId) {
             var truck = this.collection.get(truckId);
             if(truck === null) {
                 truck = new TruckModel({"_id": truckId});
@@ -85,23 +88,39 @@ module.exports = Marionette.LayoutView.extend({
         console.log("routeChanged called.");
     },
 
+    redrawSimulatedTruck: function(truck) {
+        truck.isSimulated = true;
+        this.redraw(truck);
+    },
+
+    redrawRealTruck: function(truck) {
+        truck.isSimulated = false;
+        this.redraw(truck);
+    },
+
     redraw: function(truck) {
         var rotationRadians = (truck.bearing + 90) * (Math.PI/180);
-        var iconBuilder = new IconBuilder({icon: "truck", color: "black", size: 24, rotation: rotationRadians});
+        var iconBuilder = new IconBuilder({
+            icon: "truck",
+            color: truck.isSimulated ? "black" : "#555555",
+            size: 24,
+            rotation: rotationRadians
+        });
         var iconStyle = iconBuilder.get();
         var labelStyle = new ol.style.Style({
             text: new ol.style.Text({
                 text: "Truck #" + truck.truckId,
                 offsetY: -24,
                 fill: new ol.style.Fill({
-                    color: "black"
+                    color: truck.isSimulated ? "black" : "gray"
                 })
             })
         });
         var style = [iconStyle, labelStyle];
 
         if(this.mapView !== null) {
-            truck.position.id = truck.truckId;
+            var featureId = truck.isSimulated ? "truck.simulated." + truck.truckId : "truck.real." + truck.truckId;
+            truck.position.id = featureId;
             this.mapView.drawFeature(truck.position, style);
         }
     },
@@ -123,14 +142,16 @@ module.exports = Marionette.LayoutView.extend({
      */
     drawTraffic(trafficModel) {
         if(this.mapView !== null) {
-            var iconBuilder = new IconBuilder({icon: "exclamation-triangle", color: "black", size: 24});
-            var icon = iconBuilder.get();
+            var startIconBuilder = new IconBuilder({icon: "exclamation-triangle", color: "red", size: 24});
+            var endIconBuilder = new IconBuilder({icon: "exclamation-triangle", color: "green", size: 24});
+            var startIcon = startIconBuilder.get();
+            var endIcon = endIconBuilder.get();
 
             var startCoordinates = trafficModel.get("start").coordinates;
             var endCoordinates = trafficModel.get("end").coordinates;
 
-            this.mapView.drawPoint(startCoordinates, "traffic-start-" + trafficModel.id, [icon]);
-            this.mapView.drawPoint(endCoordinates, "traffic-end-" + trafficModel.id, [icon]);
+            this.mapView.drawPoint(startCoordinates, "traffic-start-" + trafficModel.id, [startIcon]);
+            this.mapView.drawPoint(endCoordinates, "traffic-end-" + trafficModel.id, [endIcon]);
         } else {
             console.log("mapview is not present. cannot draw traffic " + trafficModel.id);
         }

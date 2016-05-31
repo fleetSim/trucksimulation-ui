@@ -21,6 +21,10 @@ module.exports = {
         this.eb.registerHandler("trucks", _.bind(function (err, res) {
             this.trucksChannel.trigger("trucks", res.body);
         }, this));
+
+        this.eb.registerHandler("trucks.real", _.bind(function (err, res) {
+            this.trucksChannel.trigger("trucks.real", res.body);
+        }, this));
     },
 
     reconnect: function() {
