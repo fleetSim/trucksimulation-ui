@@ -35,7 +35,8 @@ module.exports = Marionette.LayoutView.extend({
      */
     initialize: function (options) {
         this.listenTo(this.truckChannel, "trucks", this.redraw);
-        this.mergeOptions(options, ['controller', 'simId']);
+        this.mergeOptions(options, ['controller', 'simId', 'traffic']);
+        this.listenTo(this.traffic, "sync", this.showTrafficOnMap);
     },
 
     onFeatureClicked: function(view, feature, layer) {
@@ -43,7 +44,7 @@ module.exports = Marionette.LayoutView.extend({
         var that = this;
         if(this.model.id !== truckId) {
             var truck = this.collection.get(truckId);
-            if(truck == null) {
+            if(truck === null) {
                 truck = new TruckModel({"_id": truckId});
                 this.collection.add(truck);
             }
@@ -108,6 +109,31 @@ module.exports = Marionette.LayoutView.extend({
     onShow: function() {
         this.mapView = new MapView();
         this.map.show(this.mapView);
+    },
+
+    showTrafficOnMap: function() {
+        this.traffic.models.forEach(trafficModel => {
+           this.drawTraffic(trafficModel);
+        });
+    },
+
+    /**
+     * Draws start and end point of a traffic jam on the map.
+     * @param trafficModel
+     */
+    drawTraffic(trafficModel) {
+        if(this.mapView !== null) {
+            var iconBuilder = new IconBuilder({icon: "exclamation-triangle", color: "black", size: 24});
+            var icon = iconBuilder.get();
+
+            var startCoordinates = trafficModel.get("start").coordinates;
+            var endCoordinates = trafficModel.get("end").coordinates;
+
+            this.mapView.drawPoint(startCoordinates, "traffic-start-" + trafficModel.id, [icon]);
+            this.mapView.drawPoint(endCoordinates, "traffic-end-" + trafficModel.id, [icon]);
+        } else {
+            console.log("mapview is not present. cannot draw traffic " + trafficModel.id);
+        }
     }
 
 });
