@@ -15,8 +15,8 @@ module.exports = marionette.ItemView.extend({
     updateModel(boxMessage) {
         if(boxMessage.truckId === this.model.id) {
             this.model.set({
-                lon: boxMessage.position.geometry.coordinates[0],
-                lat: boxMessage.position.geometry.coordinates[1],
+                lon: boxMessage.position.coordinates[0],
+                lat: boxMessage.position.coordinates[1],
                 speed: boxMessage.speed,
                 ts: boxMessage.ts,
                 bearing: boxMessage.bearing,

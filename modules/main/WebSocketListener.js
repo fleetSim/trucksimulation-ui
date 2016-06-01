@@ -35,7 +35,7 @@ module.exports = {
     reconnect: function() {
         this.reconnectAttempts = this.reconnectAttempts + 1;
         if(this.reconnectAttempts < 10) {
-            console.log("websocket reconnect attempt " + reconnectAttempts + " of 10");
+            console.log("websocket reconnect attempt " + this.reconnectAttempts + " of 10");
             this.eb = new EventBus("/eventbus");
             this.start();
         } else {
@@ -44,7 +44,7 @@ module.exports = {
         }
 
     },
-
+    
     onClose: function() {
         this.timerId = setTimeout(_.bind(this.reconnect, this), 1000);
         console.log("interval id is " + this.timerId);

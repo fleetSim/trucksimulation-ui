@@ -121,7 +121,7 @@ module.exports = Marionette.LayoutView.extend({
         if(this.mapView !== null) {
             var featureId = truck.isSimulated ? "truck.simulated." + truck.truckId : "truck.real." + truck.truckId;
             truck.position.id = featureId;
-            this.mapView.drawFeature(truck.position, style);
+            this.mapView.drawPoint(truck.position.coordinates, featureId, style);
         }
     },
 
