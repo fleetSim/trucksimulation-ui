@@ -40,8 +40,16 @@ module.exports = Marionette.LayoutView.extend({
         this.listenTo(this.traffic, "sync", this.showTrafficOnMap);
     },
 
+    /**
+     * Draws context information for the clicked feature if it is a truck.
+     * The corresponding truck object becomes the views model. Lazily retrieves the model's information
+     * (including route object) from the server if it isn't present in the view's collection yet.
+     *
+     * @param view the current view
+     * @param feature the feature which was clicked
+     * @param layer
+     */
     onFeatureClicked: function(view, feature, layer) {
-        //FIXME: do not attempt to show truck details when different feature (e.g. traffic incident) has been clicked
         var idParts = feature.getId().split('.');
         var truckId = idParts[0] === "truck" ? idParts[2] : null;
         var that = this;
@@ -76,8 +84,8 @@ module.exports = Marionette.LayoutView.extend({
             var startIcon = startIconBuilder.get();
             var goalIcon = goalIconBuilder.get();
 
-            var startCoordinates = [route.get("start").lon, route.get("start").lat];
-            var goalCoordinates = [route.get("goal").lon, route.get("goal").lat];
+            var startCoordinates = route.get("start").coordinates;
+            var goalCoordinates = route.get("goal").coordinates;
             this.mapView.drawPoint(startCoordinates, "start", [startIcon]);
             this.mapView.drawPoint(goalCoordinates, "goal", [goalIcon]);
             this.mapView.drawGeometryCollection(route.get("segments"), "route");

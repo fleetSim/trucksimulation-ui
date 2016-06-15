@@ -44,10 +44,9 @@ module.exports = {
         }
 
     },
-    
+
     onClose: function() {
         this.timerId = setTimeout(_.bind(this.reconnect, this), 1000);
-        console.log("interval id is " + this.timerId);
     }
 };
 
