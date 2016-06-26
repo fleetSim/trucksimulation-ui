@@ -23,11 +23,11 @@ module.exports = {
         this.reconnectAttempts = 0;
         clearInterval(this.timerId);
 
-        this.eb.registerHandler("trucks", _.bind(function (err, res) {
+        this.eb.registerHandler("truck.box.deteriorated", _.bind(function (err, res) {
             this.trucksChannel.trigger("trucks", res.body);
         }, this));
 
-        this.eb.registerHandler("trucks.real", _.bind(function (err, res) {
+        this.eb.registerHandler("truck.box", _.bind(function (err, res) {
             this.trucksChannel.trigger("trucks.real", res.body);
         }, this));
     },
